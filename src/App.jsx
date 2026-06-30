@@ -6,43 +6,35 @@ import {
 } from 'lucide-react';
 
 // ============================================================================
-// 1. SYSTEM INSTRUCTION AI (FULL KBLI A-T + STREAMLINED JSON EXTRACTOR)
+// 1. SYSTEM INSTRUCTION AI (MEGA KBLI 150+ DATA & JSON EXTRACTOR)
 // ============================================================================
 const SE2026_SYSTEM_PROMPT = `
 Anda adalah "Asisten Ahli KBLI & Ekstraktor Data SE2026 BPS".
-Tugas Anda merespon percakapan petugas sensus. Jika user bertanya KBLI, berikan kodenya. Jika user memberi nominal omset, ekstrak datanya.
+Tugas Anda merespon percakapan petugas sensus. Jika user bertanya KBLI, berikan kodenya berdasarkan list di bawah. Jika user memberi nominal omset, ekstrak datanya.
 
-PANDUAN REFERENSI KBLI LENGKAP (A-T):
-- A. PERTANIAN: Padi Hibrida (01121), Padi Inbrida (01122), Jagung (01111), Kacang Tanah (01113), Sayuran Daun (01131), Buah Semusim (01132), Sayuran Buah (01133), Cabai (01138), Penyediaan Alat Pertanian (01619).
-- B. PETERNAKAN: Sapi Potong (01411), Kambing (01441), Domba (01442), Ayam Pedaging (01461), Petelur (01462), Bebek/Itik (01465).
-- C. PERIKANAN: Ikan Air Tawar (03221), Ikan Hias (03222).
-- C. INDUSTRI: Tahu (10308), Tempe (10307), Kerupuk/Peyek (10794), Telur Asin (10799), Penggilingan Padi (10631), Air Minum Isi Ulang (11052), Pengrajin Mebel Kayu (31011), Tukang Jahit (14120), Tukang Las (25920).
-- F. KONSTRUKSI: Bangun Hunian (41011), Gali/Bor Sumur (42207).
-- G. PERDAGANGAN: Toserba Swalayan (47111), Warung/Sembako (47112), Kedai Es Teh/Boba (56303), Es Keliling (56306), Makanan Keliling (56102), Sayur (47213), Pupuk (47763), SPBU (47301), Bensin Eceran (47302), Agen LPG (47302), Ternak Eceran (47752), Pengepul Gabah (46201), Material Bangunan (47521), Hasil Ternak (47214).
-- H. TRANSPORTASI: Taksi (49292), Ojek (49296), Angkutan Barang (49231), Kurir (53200).
-- I. AKOMODASI & MAKAN MINUM: Pedagang Makanan Tetap (56101), Angkringan (56101), Pedagang Makanan Keliling (56102), Katering (56210), SPPG MBG (56290), Homestay (55201).
-- J. INFORMASI: Konten Kreator/YouTuber (90200).
-- K. TELEKOMUNIKASI: Jasa Internet/ISP (61104).
-- M. REAL ESTATE: Sewa Bangunan (68112), Sewa Lahan Pertanian (68129).
-- N. PROFESIONAL: Pengacara (69101), Notaris (69104), Fotografer (74902).
-- O. PENUNJANG USAHA: Rental Mobil/Motor (77100), Agen Umrah (79110), Sewa Terop (77291), Sewa Alat Pertanian (77392).
-- Q. PENDIDIKAN: TK (85101), SD (85121/85122), SMP/MTs (85311/85312), SMA/MA (85315), TPQ (85542), Les Privat (85595).
-- R. KESEHATAN: Puskesmas (86102), Praktik Dokter (86201), Dokter Gigi (86203), Rumah Pijat (86995).
-- S. KESENIAN/OLAHRAGA: Orkestra/Band (90200), Bela Diri (93115), Renang (93113), Pemancingan (93196).
-- T. JASA LAINNYA: Bengkel Motor (95320), Bengkel Mobil (95311), Servis HP (95120), Elektronik (95210), Vermak (95291), Pangkas Rambut (96210), Rias Pengantin (96220), Laundry (96100).
-(Catatan: Jika ada usaha yang tidak tercantum, gunakan pengetahuan umum KBLI BPS Anda secara cerdas).
+PANDUAN REFERENSI KBLI LENGKAP BPS SE2026 (JANGAN MENGARANG):
+- A. PERTANIAN & PETERNAKAN: Padi Sawah(01121/01122), Jagung(01111), Kedelai(01113), Kacang Tanah(01114), Ubi Kayu(01135), Sayur Daun(01131), Buah Musiman(01132), Terong/Tomat(01133), Bawang/Kentang(01134), Cabai(01138), Jamur(01136), Tebu(01140), Tanaman Hias(01301), Karet(01291), Kelapa Sawit(01262), Kelapa(01261), Pinang(01289), Buah Jeruk(01230), Buah Campur/Salak(01220). Sapi(01411), Kerbau(01413), Kambing(01442), Babi(01450), Ayam Pedaging(01461), Ayam Petelur(01462), Itik/Bebek(01465), Puyuh(01466), Bibit Ayam(01468), Walet(01497).
+- C. PERIKANAN & INDUSTRI PENGOLAHAN: Ikan Air Tawar(03221), Ikan Hias(03222). Tahu(10308), Tempe(10307), Kerupuk(10794), Telur Asin(10799), Gula Aren(10722), Gorengan Dititip(10750), Jasa Parut Kelapa(10793), Pabrik Sawit(10431), Mebel Kayu(31011), Jahit(14120), Batako/Nisan(23951), Parang/Dodos(25931), Rak Aluminium(25992), Es Batu/Kristal(35302), Sikat/Sapu(32909), Karangan Bunga(32903), Sampan(30111).
+- D-F. LISTRIK/AIR/KONSTRUKSI: Token Listrik(35401), Sedot WC(37001), Bangun Rumah(41011), Instalasi Listrik(43211), Sewa Alat Berat(43905), Sumur Bor(42207).
+- G. PERDAGANGAN GROSIR: Ram Sawit(46202), Beras(46311), Buah(46312), Sayur(46313), Minyak Goreng(46327), Telur(46325), Ayam(46322), Ikan(46324), Kain(46411), Pakaian(46412), Alas Kaki(46414), Mainan(46495), Tas(46496), Komputer(46511), Alat Pertanian(46530).
+- G. PERDAGANGAN ECERAN: Swalayan/Minimarket(47111), Sembako(47112), Padi/Palawija(47211), Buah(47212), Sayur(47213), Hasil Ternak(47214), Ikan(47215), Madu(47216), Rokok(47230), Beras(47241), Kue/Roti(47242), Kopi/Gula(47243), Tahu/Tempe(47244), Minuman Beralkohol(47221), Minuman Non-Alkohol(47222), SPBU(47301), Bensin Eceran(47302), Pelumas(47303), HP/Aksesoris(47404), Komputer(47401), Mesin Kantor(47405), Perkakas/Parang(47423), Kain(47511), Perlengkapan Jahit(47513), Material Bangunan(47521), Cat(47525), Karpet/Gorden(47530), Furnitur(47591), Alat Listrik(47592), Pecah Belah(47593), Alat Musik(47594), Alat Tulis(47611), Alat Olahraga(47620), Mainan(47630), Pakaian(47711), Sepatu(47712), Tas(47714), Apotik(47721), Toko Obat(47722), Kosmetik(47724), Optik(47733), Jam(47734), Perhiasan(47735), Monja/Pakaian Bekas(47742), Motor Bekas(47832), Motor Baru(47831), Suku Cadang Motor(47833), Gas LPG(47772).
+- H. TRANSPORTASI: Travel AKAP(49221), Travel AKDP(49222), Kurir POS/JNE(53200), Kurir Kargo(51201), Penyebrangan Pom Pom(50211).
+- I-M. AKOMODASI/MAKAN/JASA BISNIS: Restoran/RM Tetap(56101), Makan/Kopi Keliling(56102), Katering(56210), Kafe/Minuman Bingxue(56303), Kedai Kopi/Jus(56304), Penginapan(55106/55103), Kos-kosan bulanan(55909). Jual Pulsa(61209). BRILink/Agen Bank(66199). Sewa Ruko/Kontrakan Tahunan(68112).
+- N-Q. PROFESIONAL & PENDIDIKAN: Notaris(69104), Fotografi(74209), Dokter Hewan(75001). Sewa Tenda(77291), Travel Umroh(79122). TPA/Rumah Tahfiz(85542), Guru Ngaji(85549), Les Privat(85595).
+- R-T. KESEHATAN, HIBURAN & LAINNYA: Bidan/Mantri/Sunat(86910), Dokter Umum(86201), Dokter Gigi(86203), Tukang Urut(86992), Daycare(88907). Konten Kreator(90200), Futsal/Badminton(93114), Gym(93116), Pemancingan(93196), Renang/Billiard(93113), Pasar Malam/Playground(93210), Karaoke(93292), Rental PS(93299). Laundry(96100), Bengkel Mobil(95311), Salon Mobil(95312), Bengkel Motor(95320), Reparasi Laptop(95101), Pangkas Rambut(96210), Perawat Kecantikan/MUA(96220), Joki Skripsi(96900).
+(Catatan: Jika ada usaha yang tidak tercantum, gunakan pengetahuan KBLI 2020 BPS Anda secara cerdas dan pilih yang paling akurat).
 
 ATURAN EKSTRAKSI ANGKA:
 - "omset_asli": Angka mentah dari user (cth: "21jt" -> 21000000). Jika tidak ada omset, isi 0.
 - "satuan_omset": "tahun" | "bulan" | "hari" | "panen"
-- "frekuensi_panen_setahun": Jika satuan "panen", asumsikan jumlah panen setahun yang wajar. Jika bukan pertanian/panen isi 1.
+- "frekuensi_panen_setahun": Jika satuan "panen", asumsikan jumlah panen setahun yang wajar (Tebu=1, Padi=2 atau 3, dll). Jika bukan pertanian/panen isi 1.
 
-WAJIB OUTPUT JSON MURNI TANPA MARKDOWN:
+WAJIB OUTPUT JSON MURNI TANPA MARKDOWN (Pastikan format JSON Valid):
 {
-  "reply": "Jawaban informatif Anda (Sebutkan KBLI jika sudah tahu, atau sapaan profesional jika user input omset).",
-  "isFinancial": true atau false (true jika ada omset_asli > 0),
-  "usaha": "Nama usaha (cth: Pedagang Kelapa Muda)",
-  "kbli": "Kode KBLI 5 Digit (cth: 56303)",
+  "reply": "Jawaban informatif Anda (Sebutkan KBLI secara natural).",
+  "isFinancial": true atau false (true jika ada omset),
+  "usaha": "Nama usaha (cth: Joki Skripsi, Agen BRILink)",
+  "kbli": "Kode KBLI 5 Digit (cth: 96900)",
   "kategori": "Pilih: Pertanian, Industri, Perdagangan, MakanMinum, Jasa",
   "omset_asli": number,
   "satuan_omset": "tahun" | "bulan" | "hari" | "panen",
@@ -56,13 +48,12 @@ WAJIB OUTPUT JSON MURNI TANPA MARKDOWN:
 const calculateEconomics = (data) => {
   if (!data || data.omset_asli <= 0) return null;
   
-  // 1. Standarisasi Omset ke 1 Tahun
   let omsetTahunan = data.omset_asli;
   if (data.satuan_omset === 'bulan') omsetTahunan = data.omset_asli * 12;
   else if (data.satuan_omset === 'hari') omsetTahunan = data.omset_asli * 30 * 12;
   else if (data.satuan_omset === 'panen') omsetTahunan = data.omset_asli * (data.frekuensi_panen_setahun || 1);
 
-  // 2. Logika Pengeluaran Dinamis Acak (33% hingga 40%)
+  // Logika Pengeluaran Dinamis Acak (33% hingga 40%)
   const pengeluaranPersen = Math.floor(Math.random() * (40 - 33 + 1)) + 33; 
   const pengeluaranRatio = pengeluaranPersen / 100;
   const labaPersen = 100 - pengeluaranPersen;
@@ -70,9 +61,7 @@ const calculateEconomics = (data) => {
   const totalPengeluaran = omsetTahunan * pengeluaranRatio;
   const pendapatanBersih = omsetTahunan - totalPengeluaran;
 
-  // 3. Pembagian Pengeluaran (HANYA Produksi vs Operasional)
   const kategori = data.kategori || "Jasa";
-
   let rasioProduksi = 0.5;
   if (kategori === "Pertanian") rasioProduksi = 0.85; 
   else if (kategori === "Perdagangan") rasioProduksi = 0.90; 
@@ -99,7 +88,7 @@ const calculateEconomics = (data) => {
 const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
 
 // ============================================================================
-// 3. KOMPONEN UI CAPI FASIH MIRROR (2 FIELD)
+// 3. KOMPONEN UI CAPI FASIH MIRROR (HANYA 2 FIELD)
 // ============================================================================
 const CopyableField = ({ label, id, amount }) => {
   const [copied, setCopied] = useState(false);
@@ -212,7 +201,6 @@ const ReportCard = ({ data }) => {
            <b>Catatan Penting:</b> Angka rincian pengeluaran di atas merupakan proyeksi rasio wajar dinamis BPS (<b className="text-amber-900">{data.pengeluaranPersen}%</b> dari omset). Silakan konfirmasi dan sesuaikan kembali dengan responden apabila terdapat anomali realita di lapangan.
          </p>
       </div>
-
     </div>
   );
 };
@@ -343,7 +331,7 @@ export default function App() {
 
       const botReplyMsg = {
         role: 'assistant',
-        content: parsedResponse.reply || "Berikut hasil analisis KBLI yang Anda maksud:",
+        content: parsedResponse.reply || "Berikut hasil KBLI yang Anda maksud:",
         reportData: null
       };
 
@@ -369,9 +357,9 @@ export default function App() {
   };
 
   const QUICK_PROMPTS = [
-    { text: "KBLI pedagang kelapa muda" },
-    { text: "Bengkel las 25920, omset bulanannya sekitar 15 juta" },
-    { text: "KBLI untuk warung makan dan bengkel cuci motor itu apa ya?" },
+    { text: "KBLI joki skripsi dan agen brilink" },
+    { text: "Toko material bangunan omset 50 juta sebulan" },
+    { text: "KBLI kafe minuman bingxue apa ya?" },
   ];
 
   return (
@@ -420,9 +408,9 @@ export default function App() {
                 <Bot className="w-10 h-10 text-emerald-600" />
                 {!apiKey && <div className="absolute -top-2 -right-2 bg-amber-100 text-amber-600 border border-amber-200 rounded-full p-1"><AlertTriangle className="w-4 h-4" /></div>}
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2 tracking-tight text-center">Tanya KBLI & Form FASIH</h2>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2 tracking-tight text-center">Kamus KBLI & Kalkulator FASIH</h2>
               <p className="text-center text-slate-500 max-w-md mb-8 text-[13px] sm:text-sm px-6 leading-relaxed">
-                Tanyakan <b>Kode KBLI</b> (A-T), atau sebutkan omsetnya untuk dibuatkan <b className="text-slate-700">Rincian FASIH SE2026</b> secara dinamis.
+                Tanyakan <b>150+ KBLI</b> (mulai dari Padi, BRILink, sampai Joki Skripsi), atau sebutkan omsetnya untuk dibuatkan rincian <b>Form 26.b & 26.d</b>.
               </p>
               
               <div className="w-full max-w-lg flex flex-col gap-3 px-2 sm:px-4">
@@ -602,5 +590,4 @@ export default function App() {
     </div>
   );
 }
-
 
